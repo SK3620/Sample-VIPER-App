@@ -22,7 +22,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
                 
         let articleListViewController = ArticleListViewController()
-        
+        articleListViewController.presenter = ArticleListPresenter(
+            view: articleListViewController,
+            inject: ArticleListPresenter.Dependency(
+                router: ArticleListRouter(view: articleListViewController),
+                getArticlesArrayUseCase: UseCase(GetArticlesArrayUseCase()))
+        )
+
         let navigation = UINavigationController(rootViewController: articleListViewController)
         window?.rootViewController = navigation
     }
