@@ -18,6 +18,9 @@ class ArticleDetailViewController: UIViewController {
         }
     }
     
+    var articleEntity: ArticleEntity!
+    var presenter: ArticleDetailPresenterProtocol!
+
     private var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -36,6 +39,8 @@ class ArticleDetailViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Row.title.rawValue)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Row.body.rawValue)
+        
+        presenter.didLoad(articleEntity: articleEntity)
     }
 }
 
@@ -60,3 +65,16 @@ extension ArticleDetailViewController: UITableViewDelegate, UITableViewDataSourc
         return cell
     }
 }
+
+extension ArticleDetailViewController: ArticleDetailViewProtocol {
+    
+    func showArticle(_ articleEntity: ArticleEntity) {
+        self.articleEntity = articleEntity
+        tableView.reloadData()
+    }
+    
+    func showError(_ error: Error) {
+        // 今回はスキップ
+    }
+}
+
