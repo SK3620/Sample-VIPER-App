@@ -8,10 +8,10 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
-
+    
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else {
@@ -20,15 +20,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
-                
+        
         let articleListViewController = ArticleListViewController()
         articleListViewController.presenter = ArticleListPresenter(
-            view: articleListViewController,
+            view: articleListViewController, // Output用のメソッドを持つプロトコルに準拠したVC
             inject: ArticleListPresenter.Dependency(
                 router: ArticleListRouter(view: articleListViewController),
                 getArticlesArrayUseCase: UseCase(GetArticlesArrayUseCase()))
         )
-
+        
         let navigation = UINavigationController(rootViewController: articleListViewController)
         window?.rootViewController = navigation
     }

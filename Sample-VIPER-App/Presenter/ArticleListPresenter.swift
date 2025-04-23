@@ -25,6 +25,10 @@ class ArticleListPresenter {
     struct Dependency {
         let router: ArticleListRouterProtocol!
         let getArticlesArrayUseCase: UseCase<Void, [ArticleEntity], Error>
+        
+        /*
+         実体としては、GetArticlesArrayUseCaseを差し込むが、そのGetArticlesArrayUseCaseの型を指定するのではなく、UseCaseクラスを使ってこのようにParameterとResultの成功と失敗の型のみで指定することができる。これによりPresenterは、GetArticlesArrayUseCaseクラスに依存しなくなる。
+         */
     }
     
     weak var view: ArticleListViewProtocol!

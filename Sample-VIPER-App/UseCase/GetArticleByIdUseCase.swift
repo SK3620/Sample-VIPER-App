@@ -20,6 +20,10 @@ class GetArticleByIdUseCase: UseCaseProtocol {
 
 class GetArticleByIdUseCase: UseCaseProtocol {
     
+//    typealias Parameter = <#type#>
+//    typealias Success = <#type#>
+//    typealias Failure = <#type#>
+    
     func execute(_ parameter: Int, completion: ((Result<ArticleEntity, Error>) -> ())?) {
         let session = URLSession(configuration: .default)
         let url = URL(string: "https://jsonplaceholder.typicode.com/posts/\(parameter)")!
