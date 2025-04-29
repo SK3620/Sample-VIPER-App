@@ -26,8 +26,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             view: articleListViewController, // Output用のメソッドを持つプロトコルに準拠したVC
             inject: ArticleListPresenter.Dependency(
                 router: ArticleListRouter(view: articleListViewController),
-                getArticlesArrayUseCase: UseCase(GetArticlesArrayUseCase()))
+                getArticlesArrayUseCase: UseCase.init(GetArticlesArrayUseCase())) // UseCaseProtocolに準拠したクラス
         )
+        
+        /*
+         ArticleListPresenter.Dependencyにて、すでに型を定義済み
+         getArticlesArrayUseCase: UseCase<Void, [ArticleEntity], Error>
+         */
         
         let navigation = UINavigationController(rootViewController: articleListViewController)
         window?.rootViewController = navigation

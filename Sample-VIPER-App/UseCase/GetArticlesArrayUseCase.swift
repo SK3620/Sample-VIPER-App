@@ -24,9 +24,9 @@ class GetArticlesArrayUseCase: UseCaseProtocol {
 
 class GetArticlesArrayUseCase: UseCaseProtocol {
     
-    typealias Parameter = Void
-    typealias Success = [ArticleEntity]
-    typealias Failure = Error
+//    typealias Parameter = Void
+//    typealias Success = [ArticleEntity]
+//    typealias Failure = Error
     
     func execute(_ parameter: Void, completion: ((Result<[ArticleEntity], Error>) -> ())?) {
         let session = URLSession(configuration: .default)

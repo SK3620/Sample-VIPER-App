@@ -21,6 +21,8 @@ class UseCase<Parameter, Success, Failure: Error> {
     
     private let instance: UseCaseInstanceBase<Parameter, Success, Failure>
     
+    // （GetArticlesArrayUseCase）UseCaseProtocol<ParamA, SuccessA, FailureA>で指定（推論された型）と UseCaseクラス<ParamA, SuccessA, FailureA> が一致していることを前提
+    // UseCaseの初期化でもらう引数の型が一致している必要がある
     init<T: UseCaseProtocol>(_ useCase: T) where T: UseCaseProtocol, T.Parameter == Parameter, T.Success == Success, T.Failure == Failure
     {
         self.instance = UseCaseInstance<T>(useCase)
@@ -28,6 +30,11 @@ class UseCase<Parameter, Success, Failure: Error> {
     
     func execute(_ parameter: Parameter, completion: ((Result<Success, Failure>) -> ())?) {
         instance.execute(parameter, completion: completion)
+        /*
+         instanceの型は例えば、以下になる
+         ・UseCaseInstance<GetArticlesArrayUseCase>
+         ・UseCaseInstance<GetArticleByIdUseCase>
+         */
     }
 }
 
@@ -51,7 +58,13 @@ private extension UseCase {
                 
         // UseCaseInstanceはUseCaseInstanceBaseを継承しているためoverride可能
         override func execute(_ parameter: T.Parameter, completion: ((Result<T.Success, T.Failure>) -> ())?) {
+            // ここで実際のロジック処理を読んでいる
             useCase.execute(parameter, completion: completion)
+            /*
+             useCaseの型は以下になる
+             ・GetArticlesArrayUseCase
+             ・GetArticleByIdUseCase
+             */
         }
     }
 }

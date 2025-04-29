@@ -24,7 +24,7 @@ class ArticleListPresenter {
     
     struct Dependency {
         let router: ArticleListRouterProtocol!
-        let getArticlesArrayUseCase: UseCase<Void, [ArticleEntity], Error>
+        let getArticlesArrayUseCase: UseCase<Void, [ArticleEntity], Error> // UseCase<Parameter, Success, Failure: Error>
         
         /*
          実体としては、GetArticlesArrayUseCaseを差し込むが、そのGetArticlesArrayUseCaseの型を指定するのではなく、UseCaseクラスを使ってこのようにParameterとResultの成功と失敗の型のみで指定することができる。これによりPresenterは、GetArticlesArrayUseCaseクラスに依存しなくなる。
@@ -44,6 +44,8 @@ extension ArticleListPresenter: ArticleListPresenterProtocol {
         
     func didLoad() {
         // GetArticlesArrayUseCase().execute(()) { [weak self] result in
+        
+        // getArticlesArrayUseCase: UseCase<Void, [ArticleEntity], any Error> GetArticlesArrayUseCase型ではない
         di.getArticlesArrayUseCase.execute(()) { [weak self] result in
 
             guard let self = self else { return }
