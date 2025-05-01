@@ -32,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         /*
          ArticleListPresenter.Dependencyにて、すでに型を定義済み
          getArticlesArrayUseCase: UseCase<Void, [ArticleEntity], Error>
+         これにより、3つのアソシエートタイプが合わない限りはエラーになるので、タイプセーフ(型安全)な状態になる
          */
         
         let navigation = UINavigationController(rootViewController: articleListViewController)
