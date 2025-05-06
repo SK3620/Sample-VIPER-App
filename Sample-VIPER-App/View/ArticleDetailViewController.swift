@@ -55,12 +55,10 @@ extension ArticleDetailViewController: UITableViewDelegate, UITableViewDataSourc
         let cell = tableView.dequeueReusableCell(withIdentifier: row.rawValue, for: indexPath)
         
         if row == .title {
-            cell.textLabel?.text = "タイトル"
-            cell.detailTextLabel?.text = "記事のタイトル"
+            cell.textLabel?.text = articleEntity.title
         }
         if row == .body {
-            cell.textLabel?.text = "記事の本文"
-            cell.detailTextLabel?.text = nil
+            cell.textLabel?.text = articleEntity.body
         }
         return cell
     }
