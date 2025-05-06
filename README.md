@@ -1,6 +1,6 @@
 # 📱 VIPER学習用サンプルアプリ
 
-iOSアーキテクチャ「VIPER（View, Interactor, Presenter, Entity, Router）」の学習を目的としたサンプルアプリ
+iOSアーキテクチャ「VIPER（View, Presenter, Interactor, Entity, Router）」の学習を目的としたサンプルアプリ
 
 ## 📚 参考リンク
 
