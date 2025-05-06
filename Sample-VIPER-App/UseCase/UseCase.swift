@@ -28,6 +28,7 @@ class UseCase<Parameter, Success, Failure: Error> {
         self.instance = UseCaseInstance<T>(useCase)
     }
     
+    // ここが初めに実行されるため、parameterやcompletionクロージャには実際の値や処理がある引数が渡ってくる
     func execute(_ parameter: Parameter, completion: ((Result<Success, Failure>) -> ())?) {
         instance.execute(parameter, completion: completion)
         /*

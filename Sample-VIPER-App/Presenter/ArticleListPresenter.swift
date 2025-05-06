@@ -39,6 +39,8 @@ class ArticleListPresenter {
     }
     
     weak var view: ArticleListViewProtocol!
+    // ArticleListViewController: ArticleListViewProtocolで、Output用のメソッドをVCで呼ぶ必要がある
+    
     private var di: Dependency
     
     init(view: ArticleListViewProtocol, inject dependency: Dependency) {
