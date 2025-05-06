@@ -40,6 +40,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		83776B8B2DC069D10023289B /* LearningMemo */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = LearningMemo;
+			sourceTree = "<group>";
+		};
 		838371882DB50C27006BC146 /* Sample-VIPER-App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -88,6 +93,7 @@
 		8383717D2DB50C27006BC146 = {
 			isa = PBXGroup;
 			children = (
+				83776B8B2DC069D10023289B /* LearningMemo */,
 				838371882DB50C27006BC146 /* Sample-VIPER-App */,
 				8383719F2DB50C29006BC146 /* Sample-VIPER-AppTests */,
 				838371A92DB50C29006BC146 /* Sample-VIPER-AppUITests */,
@@ -121,6 +127,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				83776B8B2DC069D10023289B /* LearningMemo */,
 				838371882DB50C27006BC146 /* Sample-VIPER-App */,
 			);
 			name = "Sample-VIPER-App";
