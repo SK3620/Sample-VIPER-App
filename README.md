@@ -11,6 +11,7 @@ iOSアーキテクチャ「VIPER（View, Presenter, Interactor, Entity, Router�
 
 ## 今やっていること/今後やること
 単体テスト・結合テスト・UIテストを学習中。
+
 将来的には、CI/CL SwiftLint, Danger で、Pull Request をトリガーに、ユニットテストや静的解析を自動実行し、その結果を Danger でレビュー結果としてフィードバックするところまでを簡単にやってみる。
 
 ## 📚 参考リンク
