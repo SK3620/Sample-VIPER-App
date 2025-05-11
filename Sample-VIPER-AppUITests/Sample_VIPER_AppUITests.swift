@@ -7,34 +7,36 @@
 
 import XCTest
 
+// このクラスは、Sample-VIPER-App のUIテストを定義するクラスです。
 final class Sample_VIPER_AppUITests: XCTestCase {
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+        // 各テストメソッド実行前に呼び出されるセットアップ処理。
+        // UIテストでは、失敗時に即座にテストを停止する設定が一般的です。
         continueAfterFailure = false
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        // 初期状態（インターフェースの向きなど）を設定するのに適しています。
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        // 各テストメソッド実行後に呼び出されるクリーンアップ処理。
     }
 
     @MainActor
     func testExample() throws {
-        // UI tests must launch the application that they test.
+        // UIテストの基本例。
+        // テスト対象アプリを起動し、最低限の確認を行うテンプレート。
         let app = XCUIApplication()
         app.launch()
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        // XCTAssert などを使ってテスト結果を検証できます。
     }
 
     @MainActor
     func testLaunchPerformance() throws {
+        // アプリの起動パフォーマンスを測定するテスト。
+        // iOS 13 以降などの特定のOSバージョンでのみ実行されます。
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
             measure(metrics: [XCTApplicationLaunchMetric()]) {
                 XCUIApplication().launch()
             }
