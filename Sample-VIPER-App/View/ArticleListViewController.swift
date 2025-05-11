@@ -18,7 +18,10 @@ class ArticleListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "記事一覧"
+        
         tableView = UITableView()
+        tableView.accessibilityIdentifier = "articleListTableView"
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -30,6 +33,11 @@ class ArticleListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.separatorStyle = .singleLine
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.backgroundColor = .systemGroupedBackground
+        tableView.layer.cornerRadius = 12
+        tableView.layer.masksToBounds = true
         
         presenter.didLoad()
     }
@@ -43,7 +51,13 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = articleEntities[indexPath.row].title
+        var content = cell.defaultContentConfiguration()
+        content.text = articleEntities[indexPath.row].title
+        content.textProperties.font = .systemFont(ofSize: 16, weight: .medium)
+        content.textProperties.color = .label
+        cell.contentConfiguration = content
+        cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .none
         return cell
     }
     
