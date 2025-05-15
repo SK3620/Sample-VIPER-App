@@ -9,7 +9,12 @@ import Testing
 @testable import Sample_VIPER_App
 import Foundation
 
-@Suite
+extension Tag {
+    @Tag static var ArticleListPresenterTests_2: Tag
+}
+
+
+@Suite(.tags(.ArticleListPresenterTests_2))
 struct ArticleListPresenterTests_2 {
     
     @Test("記事が存在する場合、showArticlesが呼ばれること")
