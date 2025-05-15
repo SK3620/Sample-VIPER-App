@@ -9,7 +9,7 @@ import UIKit
 
 class ArticleListViewController: UIViewController {
     
-    var presenter: ArticleListPresenterProtocol!
+    var presenter: ArticleListInput!
     
     private var tableView: UITableView!
     
@@ -68,7 +68,7 @@ extension ArticleListViewController: UITableViewDelegate, UITableViewDataSource 
     }
 }
 
-extension ArticleListViewController: ArticleListViewProtocol {
+extension ArticleListViewController: ArticleListOutput {
     
     func showArticles(_ articleEntities: [ArticleEntity]) {
         self.articleEntities = articleEntities

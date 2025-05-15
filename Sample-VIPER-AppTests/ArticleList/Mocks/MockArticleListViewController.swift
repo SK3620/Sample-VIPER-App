@@ -8,7 +8,7 @@
 import Foundation
 @testable import Sample_VIPER_App
 
-class MockArticleListViewController: ArticleListViewProtocol {
+class MockArticleListViewController: ArticleListOutput {
     var shownArticles: [ArticleEntity]?
     var didShowEmpty = false
     var shownError: Error?

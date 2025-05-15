@@ -14,13 +14,13 @@
 
 import Foundation
 
-protocol ArticleListPresenterProtocol: AnyObject {
+protocol ArticleListInput: AnyObject {
     
     func didLoad()
     func didSelect(articleEntity: ArticleEntity)
 }
 
-protocol ArticleListViewProtocol: AnyObject {
+protocol ArticleListOutput: AnyObject {
     
     func showArticles(_ articleEntities: [ArticleEntity])
     func showEmpty()
@@ -38,18 +38,18 @@ class ArticleListPresenter {
          */
     }
     
-    weak var view: ArticleListViewProtocol!
-    // ArticleListViewController: ArticleListViewProtocolで、Output用のメソッドをVCで呼ぶ必要がある
+    weak var view: ArticleListOutput!
+    // ArticleListViewController: ArticleListOutputで、Output用のメソッドをVCで呼ぶ必要がある
     
     private var di: Dependency
     
-    init(view: ArticleListViewProtocol, inject dependency: Dependency) {
+    init(view: ArticleListOutput, inject dependency: Dependency) {
         self.view = view
         self.di = dependency
     }
 }
 
-extension ArticleListPresenter: ArticleListPresenterProtocol {
+extension ArticleListPresenter: ArticleListInput {
         
     func didLoad() {
         /*
