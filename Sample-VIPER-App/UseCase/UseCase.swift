@@ -7,8 +7,12 @@
 
 import Foundation
 
-// ユースケースの共通化
-// 簡潔かつ疎結合なユースケースを実現する
+/*
+ ユースケースの共通化
+ 簡潔かつ疎結合なユースケースを実現する
+ 
+ ユースケースが共通化されておらず、一つ一つのビジネスロジックごとに個別で管理されていると、大量のプロトコルを定義する必要がある
+ */
 protocol UseCaseProtocol where Failure: Error {
     associatedtype Parameter
     associatedtype Success
