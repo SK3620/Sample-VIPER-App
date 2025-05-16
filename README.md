@@ -7,7 +7,7 @@ iOSアーキテクチャ「VIPER（View, Presenter, Interactor, Entity, Router�
 ## 主な実装済み機能
 - API通信で取得した記事を一覧に表示
 - 記事一覧画面から記事詳細画面への遷移　など...
-- 単体テスト
+- 単体テスト（XCTest, Swift-Testing）
 - 簡易的なUIテスト
 
 ## 今やっていること/今後やること
