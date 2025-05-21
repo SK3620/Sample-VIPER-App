@@ -11,9 +11,10 @@ iOSアーキテクチャ「VIPER（View, Presenter, Interactor, Entity, Router�
 - 簡易的なUIテスト
 
 ## 今やっていること/今後やること
-**[Swift テストを行う。](https://qiita.com/airy_flutter/items/a3d2a7b31f7bce68bccf)**, **[Swift-Testing を始めたい](https://qiita.com/stotic-dev/items/f9fe0211f34b7c04c440)** を参考に、コードを書きながら、ユニットテスト、UIテスト、Swit-Testingを学習中。
+- 共通化されたインターフェースである UseCase クラス内で、継承クラスを用いて、ジェネリクスを隠蔽している理由やメリットを学習中。
+- **[Swift テストを行う。](https://qiita.com/airy_flutter/items/a3d2a7b31f7bce68bccf)**, **[Swift-Testing を始めたい](https://qiita.com/stotic-dev/items/f9fe0211f34b7c04c440)** を参考に、コードを書きながら、ユニットテスト、UIテスト、Swit-Testingを学習中。
 
-将来的には、CI/CL SwiftLint, Danger で、Pull Request をトリガーに、ユニットテストや静的解析を自動実行し、その結果を Danger でレビュー結果としてフィードバックするところまでを簡単にやってみる。
+- 将来的には、CI/CL SwiftLint, Danger で、Pull Request をトリガーに、ユニットテストや静的解析を自動実行し、その結果を Danger でレビュー結果としてフィードバックするところまでを簡単にやってみる。
 
 ## 📚 参考リンク
 
