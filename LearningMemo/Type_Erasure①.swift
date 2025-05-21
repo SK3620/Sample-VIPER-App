@@ -59,8 +59,8 @@ struct Huga {
          Printer の Item が何かわからないまま使おうとしてるのでエラー
          */
         
-        // let printer: Printer = URLPrinter()
-        // func hugaHuga(printer: Printer) {}
+        // let printer: Printer = URLPrinter() → ❌
+        // func hugaHuga(printer: Printer) {} → ❌
         
         /*
          ただし、以下はエラーじゃない
@@ -76,7 +76,7 @@ class AnyPrinter<Item> {
 
     /*
      Type Erasure（型消去）
-     異なる型を同じ箱に入れて扱いたいときに使用
+     異なる Item を持つ Printer プロトコルを同じ箱に入れて扱いたいときに使用
      AnyPrinter は「Printer を型消去して使えるようにしたラッパー」なので、associatedtype を隠蔽
      */
     init<P: Printer>(_ printer: P) where P: Printer, P.Item == Item {
