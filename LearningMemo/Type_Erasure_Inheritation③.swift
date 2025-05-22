@@ -23,9 +23,17 @@ class UseCase3<Parameter, Success> {
      これもダメ そもそも T がない ❌
     private let _useCase: UseCaseInstance<<#T: UseCaseProtocol3#>>
      */
+    
+    private let _useCase: UseCaseInstanceBase<Parameter, Success>
      
     init<T: UseCaseProtocol3>(_ useCase: T) where T.Parameter == Parameter, T.Success == Success {
-         // _useCase = useCase
+        /*
+         _useCase = UseCaseInstance<T>.init(useCase: useCase)
+         の <T> は init<T: UseCaseProtocol3>... の T のこと
+         この T をジェネリクスとして指定する
+         この T は渡されてきた、具体的な処理を含む実体の T のこと。
+         */
+        _useCase = UseCaseInstance<T>.init(useCase: useCase)
     }
    
     /*
@@ -43,7 +51,7 @@ class UseCase3<Parameter, Success> {
      よって、この excute の呼び出し側は、具体的にどんな型の値を渡せばいいかがわかるようになる
      */
     func excute(parameter: Parameter, completion: (Success) -> Void) {
-        
+        _useCase.excute(paramter: parameter, completion: completion)
     }
 }
 
@@ -93,6 +101,39 @@ private extension UseCase3 {
     }
 }
  */
+
+private extension UseCase3 {
+    
+    class UseCaseInstanceBase<Parameter, Success> {
+        
+        func excute(paramter: Parameter, completion: (Success) -> Void) {
+            fatalError()
+        }
+    }
+    
+    class UseCaseInstance<T: UseCaseProtocol3>: UseCaseInstanceBase<T.Parameter, T.Success> {
+        
+        private let useCase: T
+        
+        init(useCase: T) {
+            self.useCase = useCase
+        }
+        
+        override func excute(paramter: T.Parameter, completion: (T.Success) -> Void) {
+            useCase.excute(paramter, completion: completion)
+        }
+        
+        /*
+         自前で実装は _useCase.excute を呼び出せないため overrideすること ❌
+        func excute(paramter: T.Parameter, completion: (T.Success) -> Void) {
+            useCase.excute(paramter, completion: completion)
+        }
+         */
+    }
+}
+
+
+
 class SendMessageUseCase3: UseCaseProtocol3 {
     typealias Parameter = (userId: Int, message: String)
     typealias Success = Bool
@@ -119,5 +160,8 @@ struct MessageTester {
         
         sendMessageUseCase3 = UseCase3.init(SendMessageUseCase3())
         
+        /*
+        sendMessageUseCase3.excute(parameter: <#T##(userId: Int, message: String)#>, completion: <#T##(Bool) -> Void#>)
+         */
     }
 }
