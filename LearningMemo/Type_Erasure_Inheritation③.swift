@@ -14,9 +14,23 @@ protocol UseCaseProtocol3 {
 
 class UseCase3<Parameter, Success> {
     
+    /*
+     これだとダメ ❌
+    private let _useCase: any UseCaseProtocol3
+     */
+    
+    // private let _useCase: UseCaseProtocol3
+     
     init<T: UseCaseProtocol3>(_ useCase: T) where T.Parameter == Parameter, T.Success == Success {
-        
+        // _useCase = useCase
     }
+   
+    /*
+    private let _useCase: any UseCaseProtocol3 だと any 型になるので、型の不一致 ❌
+    func excute(parameter: Parameter, completion: (Success) -> Void) {
+        _useCase.excute(<#T##parameter: any UseCaseProtocol3.Parameter##any UseCaseProtocol3.Parameter#>, completion: <#T##(any UseCaseProtocol3.Success) -> Void#>)
+    }
+     */
 }
 
 class SendMessageUseCase3: UseCaseProtocol3 {
