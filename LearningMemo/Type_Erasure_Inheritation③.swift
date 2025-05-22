@@ -155,13 +155,16 @@ struct MessageTester {
     
     func main() {
         
-        
         var sendMessageUseCase3: UseCase3<(userId: Int, message: String), Bool>
         
         sendMessageUseCase3 = UseCase3.init(SendMessageUseCase3())
         
-        /*
-        sendMessageUseCase3.excute(parameter: <#T##(userId: Int, message: String)#>, completion: <#T##(Bool) -> Void#>)
-         */
+        sendMessageUseCase3.excute(parameter: (1, "こんにちは")) { succeeded in
+            if succeeded {
+                print("送信完了")
+            } else {
+                print("送信失敗")
+            }
+        }
     }
 }
