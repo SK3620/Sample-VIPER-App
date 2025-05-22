@@ -68,6 +68,31 @@ private extension UseCase3 {
 }
  */
 
+/*
+ これもダメ ❌
+ なぜなら、UseCase3 クラス内の
+ private let _useCase: UseCaseInstanceBase<Parameter, Success> は、
+ 型が UseCaseInstanceBase クラスなので、_useCase.excute を呼び出せない！
+ UseCaseInstanceBase に、excute メソッドを定義しておく必要がある
+
+private extension UseCase3 {
+    
+    class UseCaseInstanceBase<Parameter, Success> {}
+    
+    class UseCaseInstance<T: UseCaseProtocol3>: UseCaseInstanceBase<T.Parameter, T.Success> {
+        
+        private let useCase: T
+        
+        init(useCase: T) {
+            self.useCase = useCase
+        }
+        
+        func excute(paramter: T.Parameter, completion: (T.Success) -> Void) {
+            useCase.excute(paramter, completion: completion)
+        }
+    }
+}
+ */
 class SendMessageUseCase3: UseCaseProtocol3 {
     typealias Parameter = (userId: Int, message: String)
     typealias Success = Bool
