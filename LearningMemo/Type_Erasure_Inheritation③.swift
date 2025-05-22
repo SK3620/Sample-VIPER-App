@@ -19,10 +19,13 @@ class UseCase3<Parameter, Success> {
     private let _useCase: any UseCaseProtocol3
      */
     
-    // private let _useCase: UseCaseProtocol3
+    /*
+     これもダメ そもそも T がない ❌
+    private let _useCase: UseCaseInstance<<#T: UseCaseProtocol3#>>
+     */
      
     init<T: UseCaseProtocol3>(_ useCase: T) where T.Parameter == Parameter, T.Success == Success {
-        // _useCase = useCase
+         // _useCase = useCase
     }
    
     /*
@@ -31,7 +34,39 @@ class UseCase3<Parameter, Success> {
         _useCase.excute(<#T##parameter: any UseCaseProtocol3.Parameter##any UseCaseProtocol3.Parameter#>, completion: <#T##(any UseCaseProtocol3.Success) -> Void#>)
     }
      */
+    
+    
+    /*
+     Presenter 内からこの excute に具体的な引数を指定して、呼び出す
+     MessageTester の main の「UseCase3.init(SendMessageUseCase3())」によって、
+     この excute のメソッドの引数の型（Parameter, Success）の具体的な型が決定される
+     よって、この excute の呼び出し側は、具体的にどんな型の値を渡せばいいかがわかるようになる
+     */
+    func excute(parameter: Parameter, completion: (Success) -> Void) {
+        
+    }
 }
+
+/*
+ UseCase3 クラス内の private let _useCase: UseCaseInstance<<#T: UseCaseProtocol3#>>
+ でやろうとしてもダメ T を指定できない ❌
+
+private extension UseCase3 {
+    
+    class UseCaseInstance<T: UseCaseProtocol3> {
+        
+        private let useCase: T
+        
+        init(useCase: T) {
+            self.useCase = useCase
+        }
+        
+        func excute(paramter: T.Parameter, completion: (T.Success) -> Void) {
+            useCase.excute(paramter, completion: completion)
+        }
+    }
+}
+ */
 
 class SendMessageUseCase3: UseCaseProtocol3 {
     typealias Parameter = (userId: Int, message: String)
