@@ -13,6 +13,14 @@ import UIKit
 /*
 struct HugaDependency {
      var getDataUseCase: any HugaUseCaseProtocol // これがダメ
+ 
+ // 理由は以下
+ var getDataUseCase: any HugaUseCaseProtocolの場合、
+  ・開発者自身が気を付ける必要がある
+  ・以下のように引数に渡したい型がわからない
+  ・取得した結果のデータの型がわからない
+  ・わざわざ、castできるかを判断して、castする必要がある 処理の冗長性・可読性の低下
+  ・そもそもタイプセーフではない
 }
  */
 
@@ -76,6 +84,10 @@ class HugaPresenter {
     
     var hugaDependency: HugaDependency!
     
+    /*
+     本来であれば、any HugaUseCaseProtocol ではなく、具体的な型を指定したい！
+     今回は、悪い例として、any HugaUseCaseProtocol を記述。
+     */
     struct HugaDependency {
         var getDataUseCase: any HugaUseCaseProtocol
     }
@@ -99,7 +111,7 @@ extension HugaPresenter: HugaInputProtocol {
          ・開発者自身が気を付ける必要がある
          ・以下のように引数に渡したい型がわからない
          ・取得した結果のデータの型がわからない
-         ・わざわざ、castできるかを判断して、castする必要がある
+         ・わざわざ、castできるかを判断して、castする必要がある 処理の冗長性・可読性の低下
          ・そもそもタイプセーフではない
          
         hugaDependency.getDataUseCase.execute(<#T##parameter: any HugaUseCaseProtocol.Parameter##any HugaUseCaseProtocol.Parameter#>, completion: <#T##(Result<any HugaUseCaseProtocol.Success, any HugaUseCaseProtocol.Failure>) -> Void#>)
@@ -149,6 +161,9 @@ protocol HugaUseCaseProtocol: AnyObject {
 }
 
 class GetDataUseCase: HugaUseCaseProtocol {
+    
+    init() {}
+    
     func execute(_ parameter: Void, completion: @escaping (Result<[HugaDataEntity], Error>) -> Void) {
         let res = [
             HugaDataEntity(id: 1, text: "あ", createdAt: Date()),
