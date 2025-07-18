@@ -9,7 +9,7 @@ import UIKit
 
 class ArticleListViewController: UIViewController {
     
-    var presenter: ArticleListInput!
+    var presenter: ArticleListInput! // Presenterの強参照
     
     private var tableView: UITableView!
     

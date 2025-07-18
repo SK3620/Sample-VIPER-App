@@ -14,6 +14,7 @@ protocol ArticleListRouterProtocol: AnyObject {
 
 class ArticleListRouter: ArticleListRouterProtocol {
     
+    // 強参照に注意
     weak var view: UIViewController!
     
     init(view: UIViewController) {

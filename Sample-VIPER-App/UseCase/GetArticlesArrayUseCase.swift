@@ -24,6 +24,10 @@ class GetArticlesArrayUseCase: UseCaseProtocol {
 
 class GetArticlesArrayUseCase: UseCaseProtocol {
     
+    /*
+     メソッドの引数に型を指定することで、自動で型推論
+     下記のように typealias を定義必要なし
+     */
 //    typealias Parameter = Void
 //    typealias Success = [ArticleEntity]
 //    typealias Failure = Error
