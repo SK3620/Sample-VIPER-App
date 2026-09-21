@@ -25,8 +25,11 @@ class UseCase<Parameter, Success, Failure: Error> {
     
     private let instance: UseCaseInstanceBase<Parameter, Success, Failure>
     
-    // （GetArticlesArrayUseCase）UseCaseProtocol<ParamA, SuccessA, FailureA>で指定（推論された型）と UseCaseクラス<ParamA, SuccessA, FailureA> が一致していることを前提
-    // UseCaseの初期化でもらう引数の型が一致している必要がある
+    /**
+    （GetArticlesArrayUseCase）UseCaseProtocol<ParamA, SuccessA, FailureA>で指定（推論された型）と UseCaseクラス<ParamA, SuccessA, FailureA> が一致していることを前提
+    UseCaseの初期化でもらう引数の型が一致している必要がある
+     → 結果的に型安全になる
+     */
     init<T: UseCaseProtocol>(_ useCase: T) where T: UseCaseProtocol, T.Parameter == Parameter, T.Success == Success, T.Failure == Failure
     {
         self.instance = UseCaseInstance<T>(useCase)

@@ -31,7 +31,11 @@ class ArticleListPresenter {
     
     struct Dependency {
         let router: ArticleListRouterProtocol!
-        let getArticlesArrayUseCase: UseCase<Void, [ArticleEntity], Error> // UseCase<Parameter, Success, Failure: Error>          これにより、3つのアソシエートタイプが合わない限りはエラーになるので、タイプセーフ(型安全)な状態になる
+        let getArticlesArrayUseCase: UseCase<Void, [ArticleEntity], Error>
+        /**
+         presenter側のgetArticlesArrayUseCaseの型に、UseCase<Void, [ArticleEntity], Error> を指定する（class UseCase<Parameter, Success, Failure: Error> なので、特定の型をジェネリクスに指定可能）
+         UseCase<Parameter, Success, Failure: Error>          これにより、3つのアソシエートタイプが合わない限りはエラーになるので、タイプセーフ(型安全)な状態になる
+         */
         
         /*
          実体としては、GetArticlesArrayUseCaseを差し込むが、そのGetArticlesArrayUseCaseの型を指定するのではなく、UseCaseクラスを使ってこのようにParameterとResultの成功と失敗の型のみで指定することができる。これによりPresenterは、GetArticlesArrayUseCaseクラスに依存しなくなる。
@@ -50,7 +54,7 @@ class ArticleListPresenter {
 }
 
 extension ArticleListPresenter: ArticleListInput {
-        
+    
     func didLoad() {
         /*
          ・GetArticlesArrayUseCaseのインスタンスをPresenter自身が生成しており、つまり、これはPresenterがInteractorのクラスを知ってしまっているがために起きる「密結合」という状態
@@ -58,14 +62,20 @@ extension ArticleListPresenter: ArticleListInput {
          
          ・機能の「取り外し」と「差し替え」が容易になる
          ・依存性注入によってユースケースを仮実装のものから本実装のものに変えていけますし、あるいはテスト用のスタブに変えてテストさせることも容易にできるようになるのです。ただし、この方法はファイル数がどんどん膨れ上がっていきます。実装の手間も大きいので、アプリの規模と残りスケジュールなどを相談する必要もあると思います。
+         
+         モジュール
+         ・使われる側 → 上位モジュール（Interacter, UseCase）
+         ・使う側 → 下位モジュール（Presetner）
+         ・上位モジュールが下位モジュールを知っていてはいけない（現状、その状態のため問題なしだと思う）
          */
         
         // 仮のデータを返すユースケース（MockGetArticlesArrayUseCaseみたいなのを作る？）
         // GetArticlesArrayUseCase().execute(()) { [weak self] result in ... }
         
         // 仮のデータを返すユースケースから、実際にAPIを叩いてデータを返すユースケースが簡単にすり替えることができる
-        di.getArticlesArrayUseCase.execute(()) { [weak self] result in
-
+        // わかりやすくresultの型を明示（なくても良い）
+        di.getArticlesArrayUseCase.execute(()) { [weak self] (result: Result<[ArticleEntity], Error>) in
+            
             guard let self = self else { return }
             
             switch result {
@@ -85,4 +95,3 @@ extension ArticleListPresenter: ArticleListInput {
         di.router.showArticleDetail(articleEntity: articleEntity)
     }
 }
-
