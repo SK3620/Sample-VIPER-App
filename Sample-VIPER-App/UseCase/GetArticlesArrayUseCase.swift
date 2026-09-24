@@ -8,7 +8,7 @@
 import Foundation
 
 /*
-class GetArticlesArrayUseCase: UseCaseProtocol {
+class MockGetArticlesArrayUseCase: UseCaseProtocol {
     
     func execute(_ parameter: Void, completion: ((Result<[ArticleEntity], Error>) -> ())?) {
         let res: [ArticleEntity] = [
@@ -21,6 +21,20 @@ class GetArticlesArrayUseCase: UseCaseProtocol {
     }
 }
 */
+
+/**
+ Interactor（UseCase）
+ 見た目とは関係のないロジックの部分を処理する役割を担当
+ 主にはデータのやりとり、すなわちクラッド(CRUD)についての仕事をすることが多くなる
+ 「単一責任の原則」が強く意識される
+ */
+
+/**
+ 「単一責任の原則」
+「クラスの中身を変更する理由は複数存在しない」という原則
+ 例えば、ビジネスロジックで「データを取得する」「計算する」「結果を送信する」といった処理を(まとめて)ひとつのクラス/メソッドに行わせると、 互いの処理に干渉する可能性が高くなる。
+ 1つのビジネスロジックは1つのクラスで行わせることにより、責務を切り離して検証することができるようになる
+ */
 
 class GetArticlesArrayUseCase: UseCaseProtocol {
     
