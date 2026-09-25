@@ -14,6 +14,7 @@
  【Interactor】
  Interactorはビジネスロジック。つまり、Viewとは違い見た目とは関係のないロジックの部分を処理する役割を担当します。 主にはデータのやりとり、すなわちクラッド(CRUD)についての仕事をすることが多くなると思います。
  あとで登場するEntityの生成とその破棄を受け持つのも、このInteractorの仕事になります。 先ほど登場した「単一責任の原則」は、このInteractorで強く意識することになると思います。
+ ※ Interactor == UseCase
 
  【Presenter】
  ユーザの操作やイベントを受け付けてInteractorにビジネスロジックを依頼します。 Interactorの結果を受けて、次はViewに対して表示の指示を出します。 また、あとで登場するRouterへの指示もPresenterが行います。
