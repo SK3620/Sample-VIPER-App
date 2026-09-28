@@ -152,5 +152,68 @@ enum Phase3 {
         // expect(result).toBe(["Mock Yahoo結果1", "Mock Yahoo結果2"])
     }
 }
+
+// MARK: - 【フェーズ4】依存関係逆転の原則 (DIP) の適用
+// -----------------------------------------------------------------
+// 💡 解説:
+// 主役を「SearchService（自分側）」にし、SearchService が欲しいインターフェースを宣言する。SearchService都合/身勝手で、欲しいインターフェースを定義
+// 下位レイヤー（Yahoo/Google）がこのプロトコルに適合する形にする。
+//
+// 【メリット】
+// 1. Yahoo側のAPI仕様変更（APIキー追加等）が起きても、YahooRepository 内部で吸収すれば良く、
+//    SearchService や プロトコル（SearchServiceRepositoryInterface）は影響を受けない。
+// 2. Google検索やテスト用モックへの差し替えが SearchService のコード修正なしで可能。
+//
+// 【問題点】
+// 1. [Any] を使っていた場合の問題：型安全性が失われる
+// Any は何でも入れられる反面、受け取る側（SearchService や UI 側）でキャスト（as? YahooResult など）が必要になり、型チェックの恩恵を受けられなくなります。また、万が一キャストを失敗するとクラッシュやバグの原因になります。
+//
+// 2. [String] や特定の型（例: [YahooResult]）に固定していた場合の問題
+// もし SearchService が [YahooResult] を返す設計になっていると、後から GoogleRepository（[GoogleResult] を返す）に差し替えたい時に、リポジトリごとに返すデータの型（クラス）が異なるため、型が合わずに差し替えができなくなってしまいます。
+
+enum Phase4 {
+    // ⭕️ 利用者（SearchService）側の都合で定義したプロトコル
+    // 「裏で何を使おうが、とにかく検索結果のString型で帰ってくる配列をくれれば良い」という姿勢
+    protocol SearchServiceRepositoryInterface {
+        func get() -> [String]
+    }
+
+    // --- 利用する側のサービス ---
+    class SearchService {
+        private let repository: SearchServiceRepositoryInterface
+
+        init(repository: SearchServiceRepositoryInterface) {
+            self.repository = repository
+        }
+
+        func getResult() -> [String] {
+            return repository.get()
+        }
+    }
+
+    // --- 各具象クラス（下位レイヤー） ---
+
+    // 1. Yahoo実装（内部でAPIキーが必要になっても、ここで完結する）
+    class YahooRepository: SearchServiceRepositoryInterface {
+        private let apiKey = "SECRET_YAHOO_KEY"
+
+        func get() -> [String] {
+            // Yahoo独自の通信処理・APIキー設定などはここに隠蔽される
+            return ["Yahoo検索結果1", "Yahoo検索結果2"]
+        }
+    }
+
+    // 2. Google実装への差し替えも容易
+    class GoogleRepository: SearchServiceRepositoryInterface {
+        func get() -> [String] {
+            return ["Google検索結果1", "Google検索結果2"]
+        }
+    }
+
+    // 3. テスト用モック（外部通信を行わない偽物）
+    class MockRepository: SearchServiceRepositoryInterface {
+        func get() -> [String] {
+            return ["Mockデータ1", "Mockデータ2"]
+        }
     }
 }
