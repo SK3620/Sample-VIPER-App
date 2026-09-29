@@ -217,3 +217,104 @@ enum Phase4 {
         }
     }
 }
+
+
+enum Phase5 {
+    
+    // MARK: 汎用的な Repository インターフェース
+    // データアクセス層（API通信やDB取得）の実行処理を抽象化するプロトコル
+    public protocol RepositoryInterface {
+        associatedtype Parameter
+        associatedtype Success
+        associatedtype Failure: Error
+        
+        func excute(_ parameter: Parameter, completion: ((Result<Success, Failure>) -> Void)?)
+    }
+
+
+    // MARK: 1. Yahoo検索リポジトリ
+
+    public struct YahooResult {} // Entity
+    public enum YahooError: Error { case networkError }
+
+    public class YahooRepository: RepositoryInterface {
+        /*
+        public typealias Parameter = String
+        public typealias Success = [YahooResult]
+        public typealias Failure = YahooError
+         */
+        
+        public func excute(_ parameter: String, completion: ((Result<[YahooResult], YahooError>) -> Void)?) {
+            print("Yahooで '\(parameter)' を検索中...")
+            // 成功
+            completion?(.success([YahooResult()]))
+            // 失敗
+            completion?(.failure(.networkError))
+        }
+    }
+
+
+    // MARK: - 2. Google検索リポジトリ（パラメータが構造体の場合）
+
+    public struct GoogleSearchQuery {
+        let keyword: String
+        let page: Int
+    }
+    public struct GoogleResult {} // Entity
+    public enum GoogleError: Error { case apiLimitExceeded }
+
+    public class GoogleRepository: RepositoryInterface {
+        /*
+        public typealias Parameter = GoogleSearchQuery
+        public typealias Success = [GoogleResult]
+        public typealias Failure = GoogleError
+         */
+        
+        public func excute(_ parameter: GoogleSearchQuery, completion: ((Result<[GoogleResult], GoogleError>) -> Void)?) {
+            print("Googleで '\(parameter.keyword)' (Page: \(parameter.page)) を検索中...")
+            // 成功
+            completion?(.success([GoogleResult()]))
+            // 失敗
+            completion?(.failure(.apiLimitExceeded))
+        }
+    }
+
+
+    // MARK: - 3. 検索サービス（上位レイヤー）
+    // RepositoryInterface を受け取ることで、特定の検索実装（Yahoo/Google/Mock）に依存しない
+    public class SearchService<Repository: RepositoryInterface> {
+        
+        private let repository: Repository
+        
+        public init(repository: Repository) {
+            self.repository = repository
+        }
+        
+        public func excute(
+            param: Repository.Parameter,
+            completion: ((Result<Repository.Success, Repository.Failure>) -> Void)?
+        ) {
+            // 下位層（Repository）の具体的な実装を意識せず、インターフェース経由で呼び出す
+            repository.excute(param, completion: completion)
+        }
+    }
+    
+    // MARK: 動作確認・使用例
+    func main() {
+
+        // Yahooリポジトリを使う場合
+        let yahooRepo = YahooRepository()
+        let yahooService = SearchService(repository: yahooRepo)
+        yahooService.excute(param: "Swift DIP") { result in
+            print("Yahoo検索完了: \(result)")
+        }
+
+        // Googleリポジトリを使う場合
+        let googleRepo = GoogleRepository()
+        let googleService = SearchService(repository: googleRepo)
+        let query = GoogleSearchQuery(keyword: "Swift DIP", page: 1)
+        googleService.excute(param: query) { result in
+            print("Google検索完了: \(result)")
+        }
+    }
+}
