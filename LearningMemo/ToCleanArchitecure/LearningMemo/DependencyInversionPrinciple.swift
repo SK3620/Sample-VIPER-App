@@ -158,7 +158,7 @@ enum Phase3 {
 // -----------------------------------------------------------------
 // 💡 解説:
 // 主役を「SearchService（自分側）」にし、SearchService が欲しいインターフェースを宣言する。SearchService都合/身勝手で、欲しいインターフェースを定義
-// 下位レイヤー（Yahoo/Google）がこのプロトコルに適合する形にする。
+// 下位レイヤー（Yahoo/Google）がそのプロトコルに適合する形にする。
 //
 // 【メリット】
 // 1. Yahoo側のAPI仕様変更（APIキー追加等）が起きても、YahooRepository 内部で吸収すれば良く、
@@ -171,6 +171,8 @@ enum Phase3 {
 //
 // 2. [String] や特定の型（例: [YahooResult]）に固定していた場合の問題
 // もし SearchService が [YahooResult] を返す設計になっていると、後から GoogleRepository（[GoogleResult] を返す）に差し替えたい時に、リポジトリごとに返すデータの型（クラス）が異なるため、型が合わずに差し替えができなくなってしまいます。
+//
+// 3. 現状では、引数を何も受け取っていないが、下位層Repositpryのインターフェースの変更で引数追加になった場合は、結局上位層のDomain層に影響が及ぶ
 
 enum Phase4 {
     // ⭕️ 利用者（SearchService）側の都合で定義したプロトコル
