@@ -124,7 +124,7 @@ enum ISP_After {
 }
 
 
-// MARK: - 💡 Swiftでの実践：プロトコル合成（Protocol Composition）
+// MARK: -  Swiftでの実践：プロトコル合成（Protocol Composition）
 // -----------------------------------------------------------------
 /*
  Swiftではインターフェースを小さく分けておき、必要に応じて `&` で合成するのが強力です。
