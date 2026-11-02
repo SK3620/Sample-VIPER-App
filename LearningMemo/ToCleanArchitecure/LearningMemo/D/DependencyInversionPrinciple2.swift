@@ -7,6 +7,7 @@
 
 import Foundation
 
+// 2027/11/2 復習
 
 // DependencyInversionPrinciple.swift の続き
 // =================================================================
