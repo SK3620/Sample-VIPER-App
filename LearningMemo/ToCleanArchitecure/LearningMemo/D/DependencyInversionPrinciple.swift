@@ -50,7 +50,7 @@ enum Phase1 {
 // 解説:
 // repository を外部（init）から渡せるようにした。
 // 【改善点】
-// サブクラスを作ればモックを注入してテスト可能になった。
+// サブクラスを作ってメソッドをoverrideしてモックを注入してテスト可能になった。
 // 【問題点】
 // 1. 親クラスの init() 内で特殊な処理（通信等）をしているとモック作成時に影響を受ける。
 // 2. final クラスの場合はサブクラス化できずモックが作れない。
@@ -79,6 +79,7 @@ enum Phase2 {
              */
         }
 
+        // 3.の変更に弱いとは、YahooRepositoryのgetSearchResultsがたとえば、メソッド名が変わったら、repository.getSearchResults() の呼び出し方も変えなきゃいけなくなる
         func getResult() -> [String] {
             return repository.getSearchResults()
         }
@@ -111,6 +112,7 @@ enum Phase2 {
 // 例：YahooのAPI仕様変更で APIキーや追加でリクエスト引数等が が必要になると…
 //      → YahooRepositoryInterface に apiKey 引数が追加される
 //      → 巻き添えで SearchService 側もコード修正が必要になる！（アンコントローラブル）
+//      → 別の例としては、戻り値が変更になった場合も同様のことが言える
 // 結局、下位レイヤーの変更が、上位レイヤーにまで影響しちゃう...
 
 enum Phase3 {
